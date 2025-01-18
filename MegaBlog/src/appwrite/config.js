@@ -14,20 +14,23 @@ export class Service{
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({title,slug,content,featuredImage,status,userId}){
+  async createPost({ title, slug, content, featuredImage, status, userId }) {
+    console.log("Creating document with parameters:", { title, slug, content, featuredImage, status, userId });
+
     try {
-      return await this.databases.createDocument(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        slug,
-        {
-          title,content,featuredImage,status,userId
-        }
-      )
+        return await this.databases.createDocument(
+            conf.appwriteDatabaseId,
+            conf.appwriteCollectionId,
+            slug,
+            { title, content, featuredImage, status, userId }
+        );
     } catch (error) {
-      throw error;
+        console.error("Error creating post:", error.message);
+        console.error("Error details:", error);
+        throw error;
     }
-  }
+}
+
 
   async updatePost(slug,{title,content,featuredImage,status}){
     try {
